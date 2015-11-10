@@ -190,7 +190,6 @@ class ControllerPaymentVeritransbni extends Controller {
     $payloads['transaction_details'] = $transaction_details;
     $payloads['item_details']        = $item_details;
     $payloads['customer_details']    = $customer_details;
-    $option_flag = 0;
 
     try {
       $enabled_payments = array();
@@ -241,7 +240,7 @@ class ControllerPaymentVeritransbni extends Controller {
             {
           		if ($option['name'] == 'Payment')
               {
-                $option_flag =1;
+                
                	$installment_value = explode(' ', $option['value']);
                   if (strtolower($installment_value[0]) == 'installment')
                   {
@@ -254,7 +253,7 @@ class ControllerPaymentVeritransbni extends Controller {
         }
 
         if ($is_installment && ($num_products == 1)
-            && ($transaction_details['gross_amount'] >= 500000) && ($option_flag !=0)) {
+            && ($transaction_details['gross_amount'] >= 500000)) {
           $payment_options['installment']['installment_terms'] = $installment_terms;
           $payloads['vtweb']['payment_options'] = $payment_options;
         }
@@ -269,9 +268,6 @@ class ControllerPaymentVeritransbni extends Controller {
         }
         else if ($transaction_details['gross_amount'] < 500000) {
           $redirUrl = $warningUrl . $redirUrl . '&message=2';
-        }
-        else if($option_flag == 0 && $this->config->get('veritransbni_installment_option') != 'all_product') {
-          $redirUrl = $warningUrl . $redirUrl . '&message=3';
         }
       }
       else if ($this->config->get('veritransbni_installment_option') == 'all_product' &&
