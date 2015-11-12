@@ -1,7 +1,4 @@
-1.3
+1.0
 -----
-- compatible with opencart 2.1
-1.1.0
------
-- Add several payment method
-- Add finish, unfinish, error url
+- first release
+
